@@ -3,14 +3,14 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 export const ADMIN_COOKIE = "toddle_workshop_admin";
 
 function configuredCode() {
-  const code = process.env.ADMIN_CODE;
+  const code = process.env.ADMIN_CODE?.trim();
   if (!code) throw new Error("ADMIN_CODE is not configured");
   return code;
 }
 
 export function isCorrectAdminCode(candidate: string) {
   const expected = Buffer.from(configuredCode());
-  const received = Buffer.from(candidate);
+  const received = Buffer.from(candidate.trim());
   return expected.length === received.length && timingSafeEqual(expected, received);
 }
 
